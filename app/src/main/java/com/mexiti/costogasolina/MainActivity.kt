@@ -22,7 +22,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.mexiti.costogasolina.ui.theme.CostoGasolinaTheme
-import java.lang.NumberFormatException
 import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CostGasLayout("Android")
+                    CostGasLayout()
                 }
             }
         }
@@ -43,7 +42,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CostGasLayout(name: String) {
+fun CostGasLayout() {
     Column {
         Text(
             text = stringResource(R.string.calcular_monto),
@@ -122,6 +121,6 @@ private fun CalcularMonto(precio: Double, cantLitros: Double ): String{
 @Composable
 fun CostGasLayoutPreview() {
     CostoGasolinaTheme {
-        CostGasLayout("Android")
+        CostGasLayout()
     }
 }
