@@ -22,6 +22,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.mexiti.costogasolina.ui.theme.CostoGasolinaTheme
+import java.lang.NumberFormatException
+import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +112,12 @@ fun EditNumberField(
 
 }
 
+
+private fun CalcularMonto(precio: Double, cantLitros: Double ): String{
+    val monto = precio * cantLitros
+    return NumberFormat.getCurrencyInstance().format(monto)
+
+}
 @Preview(showBackground = true)
 @Composable
 fun CostGasLayoutPreview() {
