@@ -15,6 +15,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,6 +47,20 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CostGasLayout() {
+    var precioLitroEntrada by remember {
+        mutableStateOf("")
+    }
+    var cantLitrosEntrada by remember {
+        mutableStateOf("")
+    }
+    var propinaEntrada by remember {
+        mutableStateOf("")
+    }
+
+    val precioLitro = precioLitroEntrada.toDoubleOrNull() ?: 0.0
+    val cantLitros = cantLitrosEntrada.toDoubleOrNull() ?: 0.0
+    val total = CalcularMonto(precioLitro,cantLitros)
+
     Column {
         Text(
             text = stringResource(R.string.calcular_monto),
@@ -55,8 +73,8 @@ fun CostGasLayout() {
                keyboardType = KeyboardType.Number,
                imeAction = ImeAction.Next
            ),
-           value = "10.0",
-           onValueChanged = {}
+           value = precioLitroEntrada,
+           onValueChanged = {precioLitroEntrada = it}
        )
        EditNumberField(
            label = R.string.litros,
@@ -65,8 +83,8 @@ fun CostGasLayout() {
                keyboardType = KeyboardType.Number,
                imeAction = ImeAction.Next
            ) ,
-           value = "10",
-           onValueChanged = {}
+           value = cantLitrosEntrada,
+           onValueChanged = {cantLitrosEntrada = it}
        )
        EditNumberField(
            label = R.string.propina,
@@ -75,15 +93,15 @@ fun CostGasLayout() {
                keyboardType = KeyboardType.Number,
                imeAction = ImeAction.Done
            ) ,
-           value = "0",
-           onValueChanged = {}
+           value = propinaEntrada,
+           onValueChanged = {propinaEntrada = it}
        )
         Switch(
             checked = false,
             onCheckedChange =  {}
         )
         Text(
-            text = "Total:  $"
+            text = stringResource(R.string.monto_total,total)
         )
 
     }
