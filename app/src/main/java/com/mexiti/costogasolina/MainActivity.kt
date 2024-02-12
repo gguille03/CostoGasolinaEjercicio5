@@ -57,14 +57,26 @@ fun CostGasLayout(name: String) {
            value = "10.0",
            onValueChanged = {}
        )
-        TextField(
-            value = stringResource(R.string.litros),
-            onValueChange = {}
-        )
-        TextField(
-            value = stringResource(R.string.propina) ,
-            onValueChange = {}
-        )
+       EditNumberField(
+           label = R.string.litros,
+           leadingIcon = R.drawable.gasolina ,
+           keyboardsOptions = KeyboardOptions.Default.copy(
+               keyboardType = KeyboardType.Number,
+               imeAction = ImeAction.Next
+           ) ,
+           value = "10",
+           onValueChanged = {}
+       )
+       EditNumberField(
+           label = R.string.propina,
+           leadingIcon = R.drawable.outline_18_up_rating_24,
+           keyboardsOptions = KeyboardOptions.Default.copy(
+               keyboardType = KeyboardType.Number,
+               imeAction = ImeAction.Done
+           ) ,
+           value = "0",
+           onValueChanged = {}
+       )
         Switch(
             checked = false,
             onCheckedChange =  {}
