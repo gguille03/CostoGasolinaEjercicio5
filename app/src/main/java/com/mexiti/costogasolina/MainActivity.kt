@@ -5,8 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,12 +29,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.mexiti.costogasolina.ui.theme.CostoGasolinaTheme
 import java.text.NumberFormat
 
@@ -65,11 +83,22 @@ fun CostGasLayout() {
     val propina = propinaEntrada.toDoubleOrNull() ?: 0.0
     val total = CalcularMonto(precioLitro,cantLitros, darPropina = darPropina, propina = propina)
 
-    Column {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .padding(15.dp)
+            .background(Color.LightGray, shape = RoundedCornerShape(15.dp)),
+        verticalArrangement = Arrangement.Center
+    ) {
         Text(
             text = stringResource(R.string.calcular_monto),
-
+             modifier= Modifier.fillMaxWidth()
+                 .height(50.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp
+            ,
+            textAlign = TextAlign.Center
             )
+
        EditNumberField(
            label = R.string.ingresa_gasolina,
            leadingIcon = R.drawable.money_gas ,
@@ -100,12 +129,15 @@ fun CostGasLayout() {
            value = propinaEntrada,
            onValueChanged = {propinaEntrada = it}
        )
-        Switch(
-            checked = darPropina,
-            onCheckedChange =  { darPropina = it }
-        )
+       AddTip(darPropina = darPropina
+           , onTipCheckedChange = {darPropina = it}
+
+       )
+
         Text(
-            text = stringResource(R.string.monto_total,total)
+            text = stringResource(R.string.monto_total,total),
+            fontWeight = FontWeight.Black,
+            fontSize = 30.sp
         )
 
     }
@@ -127,9 +159,37 @@ fun EditNumberField(
         singleLine = true,
         leadingIcon = { Icon(painter = painterResource(id = leadingIcon) , contentDescription = null) },
         keyboardOptions = keyboardsOptions,
-        modifier = modifier,
-        onValueChange = onValueChanged
+        modifier = modifier.fillMaxWidth()
+        ,
+        onValueChange = onValueChanged,
+
     )
+
+}
+
+
+@Composable
+fun AddTip(
+    darPropina: Boolean,
+    onTipCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+){
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .size(70.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(id = R.string.agregar_propina),
+            modifier = Modifier.padding(20.dp)
+        )
+        Switch(
+            checked = darPropina ,
+            onCheckedChange = onTipCheckedChange
+        )
+    }
+
 
 }
 
