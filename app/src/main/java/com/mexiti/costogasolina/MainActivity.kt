@@ -56,10 +56,14 @@ fun CostGasLayout() {
     var propinaEntrada by remember {
         mutableStateOf("")
     }
+    var darPropina by remember {
+        mutableStateOf(false)
+    }
 
     val precioLitro = precioLitroEntrada.toDoubleOrNull() ?: 0.0
     val cantLitros = cantLitrosEntrada.toDoubleOrNull() ?: 0.0
-    val total = CalcularMonto(precioLitro,cantLitros)
+    val propina = propinaEntrada.toDoubleOrNull() ?: 0.0
+    val total = CalcularMonto(precioLitro,cantLitros, darPropina = darPropina, propina = propina)
 
     Column {
         Text(
@@ -97,8 +101,8 @@ fun CostGasLayout() {
            onValueChanged = {propinaEntrada = it}
        )
         Switch(
-            checked = false,
-            onCheckedChange =  {}
+            checked = darPropina,
+            onCheckedChange =  { darPropina = it }
         )
         Text(
             text = stringResource(R.string.monto_total,total)
@@ -130,8 +134,11 @@ fun EditNumberField(
 }
 
 
-private fun CalcularMonto(precio: Double, cantLitros: Double ): String{
-    val monto = precio * cantLitros
+private fun CalcularMonto(precio: Double, cantLitros: Double, darPropina: Boolean, propina:Double ): String{
+    var monto = precio * cantLitros
+    if ( darPropina){
+        monto +=  propina
+    }
     return NumberFormat.getCurrencyInstance().format(monto)
 
 }
